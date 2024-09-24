@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Page with Color Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        h1 {
+            margin: 0;
+        }
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .book {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .book:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .book img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .book h3 {
+            margin: 0 0 0.5rem 0;
+        }
+        .book p {
+            margin: 0;
+            color: #666;
+        }
+        .book button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-top: 1rem;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        .book button:hover {
+            background-color: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .color-option {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .color-red { background-color: #ff0000; }
+        .color-green { background-color: #00ff00; }
+        .color-yellow { background-color: #ffff00; }
+        .color-purple { background-color: #A020F0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Library</h1>
+    </header>
+    <main class="book-container">
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/10210-L.jpg" alt="Book 1 Cover">
+            <h3>Book Title 1</h3>
+            <p>Author Name 1</p>
+            <button onclick="openModal('Book Title 1')">Select</button>
+        </div>
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/27635-L.jpg" alt="Book 2 Cover">
+            <h3>Book Title 2</h3>
+            <p>Author Name 2</p>
+            <button onclick="openModal('Book Title 2')">Select</button>
+        </div>
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/33373-L.jpg " alt="Book 3 Cover">
+            <h3>Book Title 3</h3>
+            <p>Author Name 3</p>
+            <button onclick="openModal('Book Title 3')">Select</button>
+        </div>
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/17450-L.jpg" alt="Book 4 Cover">
+            <h3>Book Title 4</h3>
+            <p>Author Name 4</p>
+            <button onclick="openModal('Book Title 4')">Select</button>
+        </div>
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/41151-L.jpg" alt="Book 5 Cover">
+            <h3>Book Title 5</h3>
+            <p>Author Name 5</p>
+            <button onclick="openModal('Book Title 5')">Select</button>
+        </div>
+        <div class="book">
+            <img src="https://covers.openlibrary.org/b/ID/41250-L.jpg " alt="Book 6 Cover">
+            <h3>Book Title 6</h3>
+            <p>Author Name 6</p>
+            <button onclick="openModal('Book Title 6')">Select</button>
+        </div>
+    </main>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalBookTitle"></h2>
+            <p>Select a color:</p>
+            <div class="color-option color-red" onclick="selectColor('red')"></div>
+            <div class="color-option color-green" onclick="selectColor('green')"></div>
+            <div class="color-option color-yellow" onclick="selectColor('yellow')"></div>
+            <div class="color-option color-purple" onclick="selectColor('purple')"></div>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var modalBookTitle = document.getElementById("modalBookTitle");
+
+        function openModal(bookTitle) {
+            modal.style.display = "block";
+            modalBookTitle.textContent = bookTitle;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        async function selectColor(color) {
+            const response = await fetch('/led/' + color);
+            closeModal();
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
