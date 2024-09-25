@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .rfid-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .status {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>RFID Pick Book</h1>
+        <div class="rfid-icon" id="rfid-icon">
+            <span>📡</span>
+        </div>
+        <p>Click to scan RFID</p>
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById("rfid-icon").addEventListener('click', async function(e) {
+            
+            const text = document.querySelector(".login-container p")
+
+            text.innerHTML = "Scan your Tag to Pick the book...";
+            const request = await fetch('/pick/scanRFID');
+            const data = await request.json();
+        
+            const { msg }  = data || {}
+
+            if(msg){
+                alert(msg)
+            }
+
+            if(rfid){
+                localStorage.removeItem("rf_id-smart-library");
+                text.innerHTML = "Book Picked :)"
+            }
+
+        });
+    </script>
+</body>
+</html>

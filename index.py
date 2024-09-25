@@ -20,7 +20,7 @@ rdids = []
 
 @app.before_request
 def validate_header():
-    excluded_routes = ['/login', "/", "/login/scanRFID"] 
+    excluded_routes = ['/login', "/", "/login/scanRFID", '/pick/book', '/pick/scanRFID'] 
 
     if request.path in excluded_routes:
         return
@@ -38,12 +38,32 @@ def hello_world():
 def login():
     return render_template('login.html')
 
+@app.route('/pick/book')
+def pickBook():
+    return render_template('pickBook.html')
+
 @app.route('/login/scanRFID', methods=['GET'])
 def wait_for_rfid():
     try:
         card_id, card_text = read_rfid()   
         rdids.append(str(card_id))     
         return jsonify({ 'rfid': card_id }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/pick/scanRFID', methods=['GET'])
+def wait_for_rfid_To_Pick_Book():
+    try:
+        card_id, card_text = read_rfid()
+
+        if(str(card_id) in rdids):
+            GPIO.output(red_led, GPIO.LOW)
+            GPIO.output(yellow_led, GPIO.LOW)
+            GPIO.output(green_led, GPIO.LOW)
+            GPIO.output(purple_led, GPIO.LOW)
+            rdids.remove(str(card_id))
+
+        return jsonify({ 'msg': "Livro pego" }), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
