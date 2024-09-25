@@ -8,5 +8,5 @@ def read_rfid():
         print("Aproxime o cartão RFID...")
         card_id, card_text = rfid_reader.read()
         return card_id, card_text
-    finally:
-        GPIO.cleanup()
+    except Exception as e:
+        print(f"Erro ao ler RFID: {e}")
