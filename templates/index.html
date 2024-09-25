@@ -185,7 +185,23 @@
         }
 
         async function selectColor(color) {
-            const response = await fetch('/led/' + color);
+
+            const rfid_token = localStorage.getItem("rf_id-smart-library");
+
+            if(!rfid_token) {
+                alert("Não autenticado");
+                return;
+            }
+
+            const response = await fetch('/led/' + color, { 
+                headers: {
+                    "X-Auth-Token": rfid_token
+                }
+            });
+            console.log(response)
+            
+            const data = await response.json();
+            console.log(data)
             closeModal();
         }
 
