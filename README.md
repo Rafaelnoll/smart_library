@@ -28,3 +28,27 @@ Além disso, o controle de usuários é realizado com a tecnologia RFID, garanti
 - **Python (Flask)**: Framework utilizado no backend para gerenciar a lógica de negócios e as rotas da aplicação de forma eficiente.
 - **HTML, CSS, JavaScript**: Tecnologias de frontend que oferecem uma interface interativa e amigável para os usuários.
 - **RFID**: Tecnologia utilizada para autenticação de usuários e controle de acesso, garantindo a identificação precisa durante as interações.
+
+## Como Iniciar a Aplicação
+
+Siga os passos abaixo para configurar e iniciar a aplicação corretamente:
+
+1. **Crie um ambiente virtual utilizando `venv`**:
+   Primeiro, vamos criar um ambiente virtual para garantir que as dependências da aplicação sejam isoladas do seu ambiente global Python.
+
+   ```bash
+   python -m venv env
+
+2. **Entrar no ambiente virtual**
+  - **2.1 (Linux)**
+     ```bash
+     source env/bin/activate
+
+  - **2.2 (Windows)**
+     ```bash
+     .\env\Scripts\activate
+
+3. **Inicial Aplicação**
+     ```bash
+     python index.py
+
